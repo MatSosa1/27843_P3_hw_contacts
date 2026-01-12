@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hw_contacts/domain/entities/contact.dart';
+
 import 'package:hw_contacts/presentation/providers/contact_provider.dart';
+
+import 'package:hw_contacts/presentation/widgets/alphabet_index.dart';
+import 'package:hw_contacts/presentation/widgets/contact_tile.dart';
+import 'package:hw_contacts/presentation/widgets/contacts_app_bar.dart';
+import 'package:hw_contacts/presentation/widgets/floating_buttons.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -11,70 +16,33 @@ class HomePage extends ConsumerWidget {
     final contactsAsync = ref.watch(watchContactProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contacts'),
-      ),
+      backgroundColor: const Color(0xFFFDF6EE),
+      appBar: ContactsAppBar(),
       body: contactsAsync.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (error, _) => Center(
-          child: Text('Error: $error'),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Error: $e')),
         data: (contacts) {
           if (contacts.isEmpty) {
-            return const Center(
-              child: Text('No contacts yet'),
-            );
+            return const Center(child: Text('No contacts'));
           }
 
-          return ListView.builder(
-            itemCount: contacts.length,
-            itemBuilder: (context, index) {
-              final song = contacts[index];
-              return _ContactTile(contact: song);
-            },
+          return Row(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: contacts.length,
+                  itemBuilder: (context, index) {
+                    return ContactTile(contact: contacts[index]);
+                  },
+                ),
+              ),
+
+              const AlphabetIndex(),
+            ],
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addSong(ref),
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  void _addSong(WidgetRef ref) {
-    final addSong = ref.read(addContactUseCaseProvider);
-
-    addSong(
-      Contact(
-        id: 0, // ignored (autoIncrement)
-        name: 'Mateo Sosa',
-        phone: '0987654321',
-        email: 'mateososa@test.com',
-      ),
-    );
-  }
-}
-
-class _ContactTile extends ConsumerWidget {
-  final Contact contact;
-
-  const _ContactTile({required this.contact});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      title: Text(contact.name),
-      subtitle: Text(contact.phone),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () {
-          final deleteSong = ref.read(deleteContactUseCaseProvider);
-          deleteSong(contact.id);
-        },
-      ),
+      floatingActionButton: FloatingButtons(ref),
     );
   }
 }

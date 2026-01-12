@@ -7,6 +7,7 @@ class ContactMapper {
       name: row.name,
       phone: row.phone,
       email: row.email,
+      isFavorite: row.isFavorite
     );
 
 static ContactsTableCompanion toCompanion(Contact c) =>
@@ -14,5 +15,6 @@ static ContactsTableCompanion toCompanion(Contact c) =>
       name: c.name,
       phone: c.phone,
       email: c.email,
+      isFavorite: c.isFavorite
     );
 }

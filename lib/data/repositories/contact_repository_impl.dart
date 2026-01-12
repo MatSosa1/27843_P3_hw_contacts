@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:hw_contacts/data/db/app_db.dart';
 import 'package:hw_contacts/data/mappers/contact_mapper.dart';
 import 'package:hw_contacts/domain/entities/contact.dart';
@@ -21,6 +22,16 @@ class ContactRepositoryImpl implements ContactRepository {
   }
 
   @override
+  Stream<List<Contact>> watchFavoriteContacts() {
+    return (db.select(db.contactsTable)
+        ..where((c) => c.isFavorite.equals(true)))
+      .watch()
+      .map(
+        (rows) => rows.map(ContactMapper.toDomain).toList(),
+      );
+  }
+
+  @override
   Stream<List<Contact>> watchContacts() {
     return db.select(db.contactsTable)
       .watch()
@@ -32,5 +43,27 @@ class ContactRepositoryImpl implements ContactRepository {
     await (db.delete(db.contactsTable)
         ..where((tbl) => tbl.id.equals(id)))
       .go();
+  }
+
+  @override
+  Future<void> toggleFavorite(int contactId) async {
+    final query = db.update(db.contactsTable)
+      ..where((c) => c.id.equals(contactId));
+
+    await query.write(
+      ContactsTableCompanion(
+        isFavorite: Value(
+          !(await _isFavorite(contactId)),
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _isFavorite(int contactId) async {
+    final row = await (db.select(db.contactsTable)
+          ..where((c) => c.id.equals(contactId)))
+        .getSingle();
+
+    return row.isFavorite;
   }
 }

@@ -1,4 +1,3 @@
-// infrastructure/database/tables/songs_table.dart
 import 'package:drift/drift.dart';
 
 @DataClassName('ContactRow')
@@ -7,4 +6,5 @@ class ContactsTable extends Table {
   TextColumn get name => text()();
   TextColumn get phone => text()();
   TextColumn get email => text()();
+  BoolColumn get isFavorite => boolean()();
 }
