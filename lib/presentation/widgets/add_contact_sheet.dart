@@ -34,45 +34,47 @@ class _AddContactSheetState extends ConsumerState<AddContactSheet> {
         bottom: MediaQuery.of(context).viewInsets.bottom + 16,
         top: 16,
       ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Nuevo contacto',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
+      child: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Nuevo contacto',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
 
-            TextFormField(
-              controller: _nameCtrl,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-              validator: (v) =>
-                  v == null || v.isEmpty ? 'Campo obligatorio' : null,
-            ),
+              TextFormField(
+                controller: _nameCtrl,
+                decoration: const InputDecoration(labelText: 'Nombre'),
+                validator: (v) =>
+                    v == null || v.isEmpty ? 'Campo obligatorio' : null,
+              ),
 
-            TextFormField(
-              controller: _phoneCtrl,
-              decoration: const InputDecoration(labelText: 'Teléfono'),
-              keyboardType: TextInputType.phone,
-            ),
+              TextFormField(
+                controller: _phoneCtrl,
+                decoration: const InputDecoration(labelText: 'Teléfono'),
+                keyboardType: TextInputType.phone,
+              ),
 
-            TextFormField(
-              controller: _emailCtrl,
-              decoration: const InputDecoration(labelText: 'Correo'),
-              keyboardType: TextInputType.emailAddress,
-            ),
+              TextFormField(
+                controller: _emailCtrl,
+                decoration: const InputDecoration(labelText: 'Correo'),
+                keyboardType: TextInputType.emailAddress,
+              ),
 
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-            ElevatedButton(
-              onPressed: _saveContact,
-              child: const Text('Guardar'),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: _saveContact,
+                child: const Text('Guardar'),
+              ),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 

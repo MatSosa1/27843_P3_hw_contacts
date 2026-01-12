@@ -44,47 +44,49 @@ class ContactTile extends ConsumerWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ActionTile(
-                icon: Icons.call,
-                label: 'Llamar',
-                onTap: () async {
-                  final uri = Uri(scheme: 'tel', path: contact.phone);
-                  await launchUrl(uri);
-                },
-              ),
-              ActionTile(
-                icon: Icons.email,
-                label: 'Enviar correo',
-                onTap: () async {
-                  final uri = Uri(
-                    scheme: 'mailto',
-                    path: contact.email,
-                  );
-                  await launchUrl(uri);
-                },
-              ),
-              ActionTile(
-                icon: contact.isFavorite
-                    ? Icons.star
-                    : Icons.star_border,
-                label: contact.isFavorite
-                    ? 'Quitar de favoritos'
-                    : 'Añadir a favoritos',
-                onTap: () {
-                  ref
-                      .read(toggleFavoriteContactUseCaseProvider)(
-                        contact.id,
-                      );
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ActionTile(
+                  icon: Icons.call,
+                  label: 'Llamar',
+                  onTap: () async {
+                    final uri = Uri(scheme: 'tel', path: contact.phone);
+                    await launchUrl(uri);
+                  },
+                ),
+                ActionTile(
+                  icon: Icons.email,
+                  label: 'Enviar correo',
+                  onTap: () async {
+                    final uri = Uri(
+                      scheme: 'mailto',
+                      path: contact.email,
+                    );
+                    await launchUrl(uri);
+                  },
+                ),
+                ActionTile(
+                  icon: contact.isFavorite
+                      ? Icons.star
+                      : Icons.star_border,
+                  label: contact.isFavorite
+                      ? 'Quitar de favoritos'
+                      : 'Añadir a favoritos',
+                  onTap: () {
+                    ref
+                        .read(toggleFavoriteContactUseCaseProvider)(
+                          contact.id,
+                        );
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          )
         );
       },
     );
