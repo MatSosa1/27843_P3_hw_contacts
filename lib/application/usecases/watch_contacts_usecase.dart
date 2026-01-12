@@ -1,12 +1,12 @@
 import 'package:hw_contacts/domain/entities/contact.dart';
 import 'package:hw_contacts/domain/repositories/contact_repository.dart';
 
-class AddContactUsecase {
+class WatchContactsUsecase {
   final ContactRepository repo;
 
-  AddContactUsecase(this.repo);
+  WatchContactsUsecase(this.repo);
 
-  Future<void> call(Contact c) {
-    return repo.addContact(c);
+  Stream<List<Contact>> call() {
+    return repo.watchContacts();
   }
 }
