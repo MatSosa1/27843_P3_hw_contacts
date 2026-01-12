@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hw_contacts/domain/entities/contact.dart';
-import 'package:hw_contacts/presentation/providers/contact_provider.dart';
 
-class FloatingButtons extends StatelessWidget {
-  final WidgetRef ref;
+import 'add_contact_sheet.dart';
 
-  const FloatingButtons(this.ref, {super.key});
+class FloatingButtons extends ConsumerWidget {
+  const FloatingButtons({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FloatingActionButton(
-          heroTag: 'dial',
-          mini: true,
-          backgroundColor: Colors.orange,
-          onPressed: () {},
-          child: const Icon(Icons.dialpad),
-        ),
-        const SizedBox(height: 12),
+        // FloatingActionButton(
+        //   heroTag: 'dial',
+        //   mini: true,
+        //   backgroundColor: Colors.orange,
+        //   onPressed: () {},
+        //   child: const Icon(Icons.dialpad),
+        // ),
+        // const SizedBox(height: 12),
         FloatingActionButton(
           heroTag: 'add',
           backgroundColor: Colors.orange,
           onPressed: () {
-            ref.read(addContactUseCaseProvider)(
-              Contact(
-                id: 0,
-                name: 'Mateo Sosa',
-                phone: '0987654321',
-                email: 'mateososa@test.com',
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(20)),
               ),
+              builder: (_) => const AddContactSheet(),
             );
           },
           child: const Icon(Icons.add),

@@ -25,10 +25,10 @@ class BottomNav extends ConsumerWidget {
           icon: Icon(Icons.star_border),
           label: 'Favoritos',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'Grupos',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.group),
+        //   label: 'Grupos',
+        // ),
       ],
     );
   }

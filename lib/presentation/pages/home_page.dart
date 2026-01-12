@@ -42,7 +42,7 @@ class HomePage extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: FloatingButtons(ref),
+      floatingActionButton: FloatingButtons(),
     );
   }
 }
