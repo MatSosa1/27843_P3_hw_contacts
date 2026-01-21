@@ -39,6 +39,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.41
   flutter_riverpod: ^2.6.1
   url_launcher: ^6.3.2
+  mockito: ^5.6.3
 
 dev_dependencies:
   flutter_test:
